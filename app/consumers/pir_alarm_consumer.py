@@ -24,7 +24,7 @@ class PirAlarmConsumer(BaseConsumer):
         event: PirAlarm = PirAlarm.from_dict(event)
         self.notification_service.send_notification(
             Notification(
-                title="[ALARM TRIGGERED] Pir: " + event.name,
+                title="[ALARM TRIGGERED] PIR sensor: " + event.name,
                 priority="5",
                 message=f"PIR has been triggered",
             )
