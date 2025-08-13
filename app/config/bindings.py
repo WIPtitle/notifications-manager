@@ -6,8 +6,7 @@ from typing import Callable, get_type_hints
 from rabbitmq_sdk.client.impl.rabbitmq_client_impl import RabbitMQClientImpl
 from rabbitmq_sdk.enums.service import Service
 
-from app.consumers.pir_alarm_consumer import PirAlarmConsumer
-from app.consumers.reed_alarm_consumer import ReedAlarmConsumer
+from app.consumers.sensor_alarm_consumer import SensorAlarmConsumer
 from app.database.database_connector import DatabaseConnector
 from app.database.impl.database_connector_impl import DatabaseConnectorImpl
 from app.services.notification.impl.notification_service_impl import NotificationServiceImpl
@@ -31,14 +30,10 @@ rabbitmq_client = RabbitMQClientImpl.from_config(
 notification_service = NotificationServiceImpl()
 
 # Consumers
-reed_alarm_consumer = ReedAlarmConsumer(notification_service=notification_service)
-pir_alarm_consumer = PirAlarmConsumer(notification_service=notification_service)
+sensor_alarm_consumer = SensorAlarmConsumer(notification_service=notification_service)
 
 # Consume messages with retry if connection fails
-while not rabbitmq_client.consume(reed_alarm_consumer):
-    time.sleep(5)
-
-while not rabbitmq_client.consume(pir_alarm_consumer):
+while not rabbitmq_client.consume(sensor_alarm_consumer):
     time.sleep(5)
 
 # Put them in an interface -> instance dict so they will be used everytime a dependency is required
