@@ -5,7 +5,7 @@ from rabbitmq_sdk.enums.event import Event
 from rabbitmq_sdk.event.base_event import BaseEvent
 from rabbitmq_sdk.event.impl.devices_manager.sensor_alarm import SensorAlarm
 
-from app.models.notification import Notification
+from app.models.notification import NotificationInputDto
 from app.services.notification.notification_service import NotificationService
 
 
@@ -23,7 +23,7 @@ class SensorAlarmConsumer(BaseConsumer):
     def do_handle(self, event):
         event: SensorAlarm = SensorAlarm.from_dict(event)
         self.notification_service.send_notification(
-            Notification(
+            NotificationInputDto(
                 title="[ALARM TRIGGERED] Sensor: " + event.sensor_name,
                 priority="5",
                 message=f"Magnetic reed has been opened"

@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
+from typing import Sequence
 
-from app.models.notification import Notification
+from app.models.notification import Notification, NotificationInputDto
 from app.models.ntfy_credentials import NtfyCredentials
 
 
 class NotificationService(ABC):
     @abstractmethod
-    def send_notification(self, notification: Notification) -> bool:
+    def send_notification(self, notification: NotificationInputDto) -> bool:
         pass
 
     @abstractmethod
@@ -15,4 +16,8 @@ class NotificationService(ABC):
 
     @abstractmethod
     def update_ntfy_credentials(self) -> NtfyCredentials:
+        pass
+
+    @abstractmethod
+    def get_all_paginated(self, offset: int) -> Sequence[Notification]:
         pass

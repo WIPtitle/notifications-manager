@@ -1,6 +1,25 @@
-class Notification:
-    def __init__(self, title: str, priority: str, message: str = None, file: bytes = None):
-        self.title = title
-        self.priority = priority
-        self.file = file
-        self.message = message
+from datetime import datetime
+from typing import Optional
+from sqlmodel import SQLModel, Field
+
+
+class NotificationInputDto(SQLModel):
+    title: str
+    priority: str
+    message: Optional[str] = None
+
+
+class Notification(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    title: str
+    priority: str
+    message: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.now)
+
+    @classmethod
+    def from_dto(cls, dto: NotificationInputDto):
+        return cls(
+            title=dto.title,
+            priority=dto.priority,
+            message=dto.message
+        )
