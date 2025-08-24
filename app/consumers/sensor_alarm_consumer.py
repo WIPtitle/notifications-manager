@@ -24,8 +24,8 @@ class SensorAlarmConsumer(BaseConsumer):
         event: SensorAlarm = SensorAlarm.from_dict(event)
         self.notification_service.send_notification(
             NotificationInputDto(
-                title="[ALARM TRIGGERED] Sensor: " + event.sensor_name,
+                title="ALARM TRIGGERED",
                 priority="5",
-                message=f"Magnetic reed has been opened"
+                message=f"Sensor {event.sensor_name} has been triggered.",
             )
         )
