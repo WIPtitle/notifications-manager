@@ -6,6 +6,7 @@ from typing import Callable, get_type_hints
 from rabbitmq_sdk.client.impl.rabbitmq_client_impl import RabbitMQClientImpl
 from rabbitmq_sdk.enums.service import Service
 
+from app.clients.auth_client import AuthClient
 from app.consumers.sensor_alarm_consumer import SensorAlarmConsumer
 from app.database.database_connector import DatabaseConnector
 from app.database.impl.database_connector_impl import DatabaseConnectorImpl
@@ -38,6 +39,8 @@ while not rabbitmq_client.consume(sensor_alarm_consumer):
 bindings[DatabaseConnector] = database_connector
 bindings[NotificationRepository] = notification_repository
 bindings[NotificationService] = notification_service
+
+bindings[AuthClient] = AuthClient()
 
 
 def resolve(interface):
