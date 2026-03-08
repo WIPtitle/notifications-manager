@@ -1,6 +1,6 @@
 import os
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from fastapi import Response, UploadFile, File, Form
 from pydantic import BaseModel
@@ -44,7 +44,7 @@ class InternalEventsRouter(RouterWrapper):
             snapshot_filename = None
             if snapshot and snapshot.size and snapshot.size > 0:
                 ext = "jpg"
-                ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+                ts = datetime.now(tz=timezone.utc).strftime("%Y%m%d_%H%M%S")
                 snapshot_filename = f"{ts}_{uuid.uuid4().hex[:8]}.{ext}"
                 filepath = os.path.join(SNAPSHOTS_DIR, snapshot_filename)
                 content = await snapshot.read()

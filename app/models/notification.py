@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from sqlmodel import SQLModel, Field
 
@@ -22,6 +22,6 @@ class Notification(SQLModel, table=True):
         return cls(
             title=dto.title,
             priority=dto.priority,
-            created_at=datetime.now(),
+            created_at=datetime.now(tz=timezone.utc),
             message=dto.message
         )
