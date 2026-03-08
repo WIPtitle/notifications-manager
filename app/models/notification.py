@@ -15,6 +15,7 @@ class Notification(SQLModel, table=True):
     priority: str
     created_at: datetime = None
     message: Optional[str] = None
+    snapshot_filename: Optional[str] = Field(default=None)
 
     @classmethod
     def from_dto(cls, dto: NotificationInputDto):

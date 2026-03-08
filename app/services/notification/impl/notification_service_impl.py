@@ -14,7 +14,7 @@ from app.utils.read_credentials import read_credentials
 class NotificationServiceImpl(NotificationService):
     def __init__(self, notification_repository: NotificationRepository):
         self.notification_repository = notification_repository
-        self.ntfy_hostname = os.getenv("NTFY_HOSTNAME")
+        self.ntfy_hostname = "ntfy"
         self.ntfy_credentials = read_credentials(os.getenv('NTFY_CREDENTIALS_FILE'))
 
     def get_ntfy_credentials(self) -> NtfyCredentials:
@@ -60,6 +60,12 @@ class NotificationServiceImpl(NotificationService):
         response = requests.post(url, data=notification.message, headers=headers, auth=auth)
 
         return response.status_code == 200
+
+    def save_notification(self, notification_dto: NotificationInputDto, snapshot_filename: str | None = None) -> Notification:
+        """Save notification to DB only (no push)."""
+        notification = Notification.from_dto(notification_dto)
+        notification.snapshot_filename = snapshot_filename
+        return self.notification_repository.create(notification)
 
     def get_all_paginated(self, offset: int) -> Sequence[Notification]:
         return self.notification_repository.find_all_paginated(offset)

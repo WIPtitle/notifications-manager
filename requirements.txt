@@ -4,5 +4,6 @@ uvicorn==0.30.6
 psycopg2==2.9.9
 sqlmodel==0.0.22
 httpx==0.26.0
+python-multipart==0.0.9
 pillow==10.4.0
 requests==2.32.3

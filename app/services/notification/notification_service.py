@@ -19,5 +19,9 @@ class NotificationService(ABC):
         pass
 
     @abstractmethod
+    def save_notification(self, notification: NotificationInputDto, snapshot_filename: str | None = None) -> Notification:
+        pass
+
+    @abstractmethod
     def get_all_paginated(self, offset: int) -> Sequence[Notification]:
         pass
