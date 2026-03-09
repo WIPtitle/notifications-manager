@@ -51,7 +51,7 @@ class InternalEventsRouter(RouterWrapper):
                 with open(filepath, "wb") as f:
                     f.write(content)
 
-            self.notification_service.save_notification(
+            self.notification_service.send_notification(
                 NotificationInputDto(
                     title="MOTION WARNING",
                     priority="3",

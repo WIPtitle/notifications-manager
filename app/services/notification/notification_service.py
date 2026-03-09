@@ -7,7 +7,7 @@ from app.models.ntfy_credentials import NtfyCredentials
 
 class NotificationService(ABC):
     @abstractmethod
-    def send_notification(self, notification: NotificationInputDto) -> bool:
+    def send_notification(self, notification: NotificationInputDto, snapshot_filename: str | None = None) -> bool:
         pass
 
     @abstractmethod

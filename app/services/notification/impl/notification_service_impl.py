@@ -45,8 +45,9 @@ class NotificationServiceImpl(NotificationService):
             topic=self.ntfy_credentials['NTFY_TOPIC']
         )
 
-    def send_notification(self, notification_dto: NotificationInputDto) -> bool:
+    def send_notification(self, notification_dto: NotificationInputDto, snapshot_filename: str | None = None) -> bool:
         notification = Notification.from_dto(notification_dto)
+        notification.snapshot_filename = snapshot_filename
         self.notification_repository.create(notification)
 
         url = f"http://{self.ntfy_hostname}/{self.ntfy_credentials['NTFY_TOPIC']}"
