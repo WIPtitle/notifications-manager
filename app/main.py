@@ -3,16 +3,18 @@ from typing import List
 from fastapi import FastAPI
 
 from app.config.handlers import get_exception_handlers
-from app.routers.impl.ntfy_config_router import NtfyConfigRouter
-from app.routers.impl.notification_router import NotificationRouter
+from app.routers.impl.firebase_config_router import FirebaseConfigRouter
 from app.routers.impl.internal_events_router import InternalEventsRouter
+from app.routers.impl.notification_router import NotificationRouter
+from app.routers.impl.ntfy_config_router import NtfyConfigRouter
 from app.routers.router_wrapper import RouterWrapper
 
 exception_handlers = get_exception_handlers()
 routers: List[RouterWrapper] = [
     NtfyConfigRouter(),
+    FirebaseConfigRouter(),
     NotificationRouter(),
-    InternalEventsRouter()
+    InternalEventsRouter(),
 ]
 
 app = FastAPI()
