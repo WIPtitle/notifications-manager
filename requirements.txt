@@ -7,3 +7,4 @@ httpx==0.26.0
 python-multipart==0.0.9
 pillow==10.4.0
 requests==2.32.3
+firebase-admin==6.5.0
