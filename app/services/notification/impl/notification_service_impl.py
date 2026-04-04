@@ -7,13 +7,15 @@ import requests
 from app.models.notification import Notification, NotificationInputDto
 from app.models.ntfy_credentials import NtfyCredentials
 from app.repositories.notification.notification_repository import NotificationRepository
+from app.services.firebase.firebase_service import FirebaseService
 from app.services.notification.notification_service import NotificationService
 from app.utils.read_credentials import read_credentials
 
 
 class NotificationServiceImpl(NotificationService):
-    def __init__(self, notification_repository: NotificationRepository):
+    def __init__(self, notification_repository: NotificationRepository, firebase_service: FirebaseService):
         self.notification_repository = notification_repository
+        self.firebase_service = firebase_service
         self.ntfy_hostname = "ntfy"
         self.ntfy_credentials = read_credentials(os.getenv('NTFY_CREDENTIALS_FILE'))
 
@@ -59,6 +61,12 @@ class NotificationServiceImpl(NotificationService):
         }
 
         response = requests.post(url, data=notification.message, headers=headers, auth=auth)
+
+        # Send via Firebase (if configured)
+        self.firebase_service.send_notification(
+            title=notification.title,
+            body=notification.message or "",
+        )
 
         return response.status_code == 200
 
